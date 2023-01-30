@@ -1,6 +1,7 @@
+
 function savetolocalstorage(event)
 {
-    event.preventDefault();
+    event.preventDefault()
     let amount=event.target.expense.value;
     let description=event.target.description.value;
     
@@ -10,9 +11,8 @@ function savetolocalstorage(event)
         description
        
     }
-    axios.post('https://crudcrud.com/api/bf55aa96b5e544b78c3b66d5df762bda/validatedata',obj)
+    axios.post('https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata',obj)
     .then((res)=>{
-        console.log(res.data)
         showuserdetails(res.data)
     })
     .catch((err)=>console.log(err))
@@ -21,15 +21,26 @@ function savetolocalstorage(event)
 }
 function showuserdetails(data)
 {
+    document.getElementById('exp').value='';
+    document.getElementById('des').value='';
     let parentele=document.getElementById('frm')
     let childele=`<li id=${data._id}>${data.amount}-${data.description}
-                        <button onClick=deluser('${data._id}')>delete</button></li>`
+                        <button onClick=deluser('${data._id}')>delete</button>
+                        <button onClick=edituser('${data.amount}','${data.description}','${data._id}')>edit</button></li>`
     parentele.innerHTML=parentele.innerHTML+childele
     
 }
+function edituser(useramount,userdescription,userid)
+{
+    document.getElementById('exp').value=useramount;
+    document.getElementById('des').value=userdescription;
+
+    deluser(userid);
+
+}
 function deluser(userid)
 {
-    axios.delete(`https://crudcrud.com/api/bf55aa96b5e544b78c3b66d5df762bda/validatedata/${userid}`)
+    axios.delete(`https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata/${userid}`)
     .then((res)=>{
         removeuser(userid)
     })
@@ -48,7 +59,7 @@ function removeuser(userid)
 }
 window.addEventListener('DOMContentLoaded',()=>
 {
-    axios.get('https://crudcrud.com/api/bf55aa96b5e544b78c3b66d5df762bda/validatedata')
+    axios.get('https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata')
     .then((res)=>{
         console.log(res.data)
         for(var i=0;i<res.data.length;i++)
