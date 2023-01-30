@@ -41,9 +41,8 @@ function edituser(useramount,userdescription,userid)
 function deluser(userid)
 {
     axios.delete(`https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata/${userid}`)
-    .then((res)=>{
-        removeuser(userid)
-    })
+    .then(
+        removeuser(userid))
     .catch((err)=>{
         console.log(err)
     })
