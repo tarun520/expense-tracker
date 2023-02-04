@@ -1,4 +1,4 @@
-
+var uid=null;
 function savetolocalstorage(event)
 {
     event.preventDefault()
@@ -11,11 +11,22 @@ function savetolocalstorage(event)
         description
        
     }
-    axios.post('https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata',obj)
+    if(uid===null)
+    {
+    axios.post('https://crudcrud.com/api/270909839b9c4410850cb733f56d9655/validatedata',obj)
     .then((res)=>{
         showuserdetails(res.data)
     })
     .catch((err)=>console.log(err))
+    }
+    else{
+        axios.put(`https://crudcrud.com/api/270909839b9c4410850cb733f56d9655/validatedata/${uid}`,obj)
+        .then(
+            showuserdetails(obj)
+        )
+        uid=null;
+    }
+    
     
     
 }
@@ -32,15 +43,17 @@ function showuserdetails(data)
 }
 function edituser(useramount,userdescription,userid)
 {
+    removeuser(userid);
     document.getElementById('exp').value=useramount;
     document.getElementById('des').value=userdescription;
+    uid=userid
 
-    deluser(userid);
+    
 
 }
 function deluser(userid)
 {
-    axios.delete(`https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata/${userid}`)
+    axios.delete(`https://crudcrud.com/api/270909839b9c4410850cb733f56d9655/validatedata/${userid}`)
     .then(
         removeuser(userid))
     .catch((err)=>{
@@ -58,7 +71,7 @@ function removeuser(userid)
 }
 window.addEventListener('DOMContentLoaded',()=>
 {
-    axios.get('https://crudcrud.com/api/e4bb1ec55f8a4adaa3241d6419d07784/validatedata')
+    axios.get('https://crudcrud.com/api/270909839b9c4410850cb733f56d9655/validatedata')
     .then((res)=>{
         console.log(res.data)
         for(var i=0;i<res.data.length;i++)
